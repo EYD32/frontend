@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
+import { registrationSchema } from '../validation/schema';
 
 export default function Register() {
   const initialFormValues = {
@@ -9,10 +11,20 @@ export default function Register() {
     password: '',
   };
 
+  const initialFormErrors = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  };
+
   let navigate = useNavigate();
   const [formValues, setFormValues] = useState(initialFormValues);
+  const [formErrors, setFormErrors] = useState(initialFormErrors);
+  const [disabled, setDisabled] = useState(true);
 
   const handleChange = (e) => {
+    validate(e.target.name, e.target.value);
     setFormValues({
       ...formValues,
       [e.target.name]: e.target.value,
@@ -22,6 +34,18 @@ export default function Register() {
   function handleSubmit() {
     navigate('landing');
   }
+
+  const validate = (name, value) => {
+    yup
+      .reach(registrationSchema, name)
+      .validate(value)
+      .then(() => setFormErrors({ ...formErrors, [name]: '' }))
+      .catch((err) => setFormErrors({ ...formErrors, [name]: err.errors[0] }));
+  };
+
+  useEffect(() => {
+    registrationSchema.isValid(formValues).then((valid) => setDisabled(!valid));
+  }, [formValues]);
 
   return (
     <div className='register'>
@@ -36,6 +60,7 @@ export default function Register() {
           name='firstName'
           onChange={handleChange}
         />
+        <p>{formErrors.firstName}</p>
         <label htmlFor='last_name' />
         <input
           id='last_name'
@@ -44,6 +69,7 @@ export default function Register() {
           name='lastName'
           onChange={handleChange}
         />
+        <p>{formErrors.lastName}</p>
         <label htmlFor='email' />
         <input
           id='email'
@@ -53,6 +79,7 @@ export default function Register() {
           name='email'
           onChange={handleChange}
         />
+        <p>{formErrors.email}</p>
         <label htmlFor='password' />
         <input
           id='password'
@@ -62,7 +89,9 @@ export default function Register() {
           name='password'
           onChange={handleChange}
         />
-        <button>Submit</button>
+        <p>{formErrors.password}</p>
+
+        <button disabled={disabled}>Submit</button>
       </form>
     </div>
   );
