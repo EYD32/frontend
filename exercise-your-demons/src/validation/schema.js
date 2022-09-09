@@ -18,4 +18,16 @@ const registrationSchema = yup.object().shape({
     .required('password is required'),
 });
 
-export { registrationSchema };
+const loginSchema = yup.object().shape({
+    email: yup
+    .string()
+    .trim()
+    .email('must be valid email')
+    .required('email is required'),
+    password: yup
+    .string()
+    .trim()
+    .required('password is required')
+})
+
+export { registrationSchema, loginSchema };

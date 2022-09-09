@@ -1,16 +1,33 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import * as yup from 'yup'
+import { loginSchema } from '../validation/schema';
 
 export default function Login() {
   const initialFormValues = {
     email: '',
     password: '',
   };
+const initialFormErrors = {
+    email:'',
+    password:''
+}
 
   let navigate = useNavigate();
   const [formValues, setFormValues] = useState(initialFormValues);
+  const [formErrors, setFormErrors] = useState(initialFormErrors)
+  const [disabled, setDisabled] = useState(true)
+
+  const validate = (name, value) => {
+    yup
+      .reach(loginSchema, name)
+      .validate(value)
+      .then(() => setFormErrors({ ...formErrors, [name]: '' }))
+      .catch((err) => setFormErrors({ ...formErrors, [name]: err.errors[0] }));
+  };
 
   const handleChange = (e) => {
+    validate(e.target.name, e.target.value)
     setFormValues({
       ...formValues,
       [e.target.name]: e.target.value,
@@ -20,6 +37,10 @@ export default function Login() {
   function handleSubmit() {
     navigate('landing');
   }
+
+  useEffect(() => {
+      loginSchema.isValid(formValues).then((valid) => setDisabled(!valid))
+  },[formValues])
 
   return (
     <div className='login'>
@@ -35,6 +56,7 @@ export default function Login() {
           name='email'
           onChange={handleChange}
         />
+        <p>{formErrors.email}</p>
         <label htmlFor='password' />
         <input
           id='password'
@@ -44,7 +66,7 @@ export default function Login() {
           name='password'
           onChange={handleChange}
         />
-        <button>Submit</button>
+        <button disabled = {disabled}>Submit</button>
       </form>
     </div>
   );
