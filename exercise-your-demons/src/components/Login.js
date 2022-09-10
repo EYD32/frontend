@@ -1,46 +1,50 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup'
 import { loginSchema } from '../validation/schema';
+import {useForm} from '../hooks/useForm';
+
 
 export default function Login() {
   const initialFormValues = {
     email: '',
     password: '',
   };
-const initialFormErrors = {
-    email:'',
-    password:''
-}
-
-  let navigate = useNavigate();
-  const [formValues, setFormValues] = useState(initialFormValues);
-  const [formErrors, setFormErrors] = useState(initialFormErrors)
-  const [disabled, setDisabled] = useState(true)
-
-  const validate = (name, value) => {
-    yup
-      .reach(loginSchema, name)
-      .validate(value)
-      .then(() => setFormErrors({ ...formErrors, [name]: '' }))
-      .catch((err) => setFormErrors({ ...formErrors, [name]: err.errors[0] }));
+  const initialFormErrors = {
+    email: '',
+    password: '',
   };
+const formSchema = loginSchema;
 
-  const handleChange = (e) => {
-    validate(e.target.name, e.target.value)
-    setFormValues({
-      ...formValues,
-      [e.target.name]: e.target.value,
-    });
-  };
+let navigate = useNavigate();
+//   let formSchema = loginSchema
+//   const [formValues, setFormValues] = useState(initialFormValues);
+//   const [formErrors, setFormErrors] = useState(initialFormErrors);
+const [formValues, formErrors, handleChange] = useForm({initialFormValues, initialFormErrors, formSchema})
+const [disabled, setDisabled] = useState(true);
+
+//   const validate = (name, value) => {
+//     yup
+//       .reach(loginSchema, name)
+//       .validate(value)
+//       .then(() => setFormErrors({ ...formErrors, [name]: '' }))
+//       .catch((err) => setFormErrors({ ...formErrors, [name]: err.errors[0] }));
+//   };
+
+//   const handleChange = (e) => {
+//     validate(e.target.name, e.target.value);
+//     setFormValues({
+//       ...formValues,
+//       [e.target.name]: e.target.value,
+//     });
+//   };
 
   function handleSubmit() {
-    navigate('landing');
+    navigate('/landing');
   }
 
   useEffect(() => {
-      loginSchema.isValid(formValues).then((valid) => setDisabled(!valid))
-  },[formValues])
+    loginSchema.isValid(formValues).then((valid) => setDisabled(!valid));
+  }, [formValues]);
 
   return (
     <div className='login'>
@@ -66,7 +70,7 @@ const initialFormErrors = {
           name='password'
           onChange={handleChange}
         />
-        <button disabled = {disabled}>Submit</button>
+        <button disabled={disabled}>Submit</button>
       </form>
     </div>
   );
