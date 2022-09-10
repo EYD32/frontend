@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginSchema } from '../validation/schema';
 import {useForm} from '../hooks/useForm';
+
 
 
 export default function Login() {
@@ -19,8 +19,9 @@ let navigate = useNavigate();
 //   let formSchema = loginSchema
 //   const [formValues, setFormValues] = useState(initialFormValues);
 //   const [formErrors, setFormErrors] = useState(initialFormErrors);
-const [formValues, formErrors, handleChange] = useForm({initialFormValues, initialFormErrors, formSchema})
-const [disabled, setDisabled] = useState(true);
+const [formValues, formErrors, disabled, handleChange] = useForm({initialFormValues, initialFormErrors, formSchema})
+// const disabled = useDisable({formSchema, initialFormValues})
+// const [disabled, setDisabled] = useState(true);
 
 //   const validate = (name, value) => {
 //     yup
@@ -42,9 +43,9 @@ const [disabled, setDisabled] = useState(true);
     navigate('/landing');
   }
 
-  useEffect(() => {
-    loginSchema.isValid(formValues).then((valid) => setDisabled(!valid));
-  }, [formValues]);
+//   useEffect(() => {
+//     loginSchema.isValid(formValues).then((valid) => setDisabled(!valid));
+//   }, [formValues]);
 
   return (
     <div className='login'>
