@@ -32,7 +32,7 @@ export default function Register() {
   };
 
   function handleSubmit() {
-    navigate('landing');
+    navigate('/landing');
   }
 
   const validate = (name, value) => {
