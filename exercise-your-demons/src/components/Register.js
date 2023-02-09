@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
 import { registrationSchema } from '../validation/schema';
 import { useForm } from '../hooks/useForm';
 

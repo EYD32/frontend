@@ -2,7 +2,7 @@
 // import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
-import Landing from './components/Landing';
+import Profile from './components/Profile';
 import Login from './components/Login';
 import NavBar from './components/NavBar';
 import Register from './components/Register';
@@ -15,7 +15,7 @@ function App() {
       </header>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='landing' element={<Landing />} />
+        <Route path='landing' element={<Profile />} />
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
       </Routes>
