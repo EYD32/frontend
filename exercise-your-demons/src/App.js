@@ -6,6 +6,8 @@ import Profile from './components/Profile';
 import Login from './components/Login';
 import NavBar from './components/NavBar';
 import Register from './components/Register';
+import MacrosTracker from './components/MacrosTracker';
+import Logout from './components/Logout';
 
 function App() {
   return (
@@ -16,8 +18,9 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='landing' element={<Profile />} />
-        <Route path='login' element={<Login />} />
+        <Route path='login' element={<Logout />} />
         <Route path='register' element={<Register />} />
+        <Route path='tracker' element={<MacrosTracker/>}/>
       </Routes>
     </div>
   );

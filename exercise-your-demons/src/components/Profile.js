@@ -1,4 +1,7 @@
 import { Link } from 'react-router-dom'; 
+import MacrosTracker from './MacrosTracker';
+import styled from 'styled-components';
+
 
 export default function Profile() {
   return (
