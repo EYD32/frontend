@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import axios from 'axios'
+import axios from 'axios';
 
 const MacroWrapper = styled.div`
   border: 1px solid grey;
@@ -42,26 +42,27 @@ const ProteinSection = styled(MacroSection)`
   position: absolute;
 `;
 
-
-
 const MacroTracker = () => {
-  const [fat, setFat] = useState(50);
-  const [carbs, setCarbs] = useState(12);
-  const [protein, setProtein] = useState(30);
+  const [fat, setFat] = useState(10);
+  const [carbs, setCarbs] = useState(10);
+  const [protein, setProtein] = useState(50);
+  const [fatGoal, setFatGoal] = useState(0)
+  const [carbGoal, setCarbGoal] = useState(0)
+  const [proteinGoal, setProteinGoal] = useState(0)
 
-
-  // useEffect(() => {
-  //   axios.get('http://localhost:5555/api/macros')
-  //   .then(res => {
-  //     setFat(res.data[0].fat)
-  //     setCarbs(res.data[0].carb)
-  //     setProtein(res.data[0].protein)
-  //     console.log(res.data[0])
-  //   })
-  //   .catch(err => {
-  //     console.log(err)
-  //   })
-  // }, []);
+  useEffect(() => {
+    axios
+      .get('http://localhost:5555/api/macros')
+      .then((res) => {
+        setFatGoal(res.data[0].fatGoal)
+        setCarbGoal(res.data[0].carbGoal)
+        setProteinGoal(res.data[0].proteinGoal)
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <MacroWrapper>
@@ -91,7 +92,7 @@ const MacroTracker = () => {
         strokeWidth={10}
         styles={{
           path: {
-            transform: `rotate(${fat / 100}turn)`,
+            transform: `rotate(${fatGoal / 100}turn)`,
             transformOrigin: 'center center',
             stroke: '#3498db',
             strokeLinecap: 'butt',
@@ -109,17 +110,17 @@ const MacroTracker = () => {
       />
       <ProteinSection
         value={protein}
-        minValue={0}
-        maxValue={100}
         strokeWidth={10}
         styles={{
           path: {
-            transform: `rotate(${(carbs + fat) / 100}turn)`,
+            circleRatio: 0.5,
+            transform: `rotate(${(carbGoal + fatGoal) / 100}turn)`,
             transformOrigin: 'center center',
             stroke: '#e74c3c',
             strokeLinecap: 'butt',
           },
           trail: {
+            circleRatio: 0.5,
             stroke: '#eee',
             strokeLinecap: 'round',
           },
