@@ -1,28 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import axios from 'axios'
 
 const MacroWrapper = styled.div`
   border: 1px solid grey;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 250px;
+  height: 35rem;
 `;
 
 const MacroSection = styled(CircularProgressbar)`
-  width: 80px;
-  height: 80px;
-  margin-right: 10px;
+  width: 20rem;
+  height: 20rem;
 
   .CircularProgressbar-path {
-    stroke-width: 10px;
+    stroke-width: 1rem;
   }
 
   .CircularProgressbar-trail {
     stroke: #eee;
-    stroke-width: 10px;
+    stroke-width: 1rem;
     opacity: 0;
   }
 `;
@@ -30,36 +30,38 @@ const MacroSection = styled(CircularProgressbar)`
 const FatSection = styled(MacroSection)`
   color: #f39c12;
   position: absolute;
-  top: 10;
-  left: 10;
-  
 `;
 
 const CarbsSection = styled(MacroSection)`
   color: #3498db;
   position: absolute;
-  top: 10;
-  left: 10;
 `;
 
 const ProteinSection = styled(MacroSection)`
   color: #e74c3c;
   position: absolute;
-  top: 10;
-  left: 10;
 `;
 
 
 
-const Logout = () => {
-  const [fat, setFat] = useState(25);
-  const [carbs, setCarbs] = useState(50);
-  const [protein, setProtein] = useState(25);
-  
-  // const total = fat + carbs + protein;
-  // const fatPercentage = Math.round((fat / total) * 100);
-  // const carbsPercentage = Math.round((carbs / total) * 100);
-  // const proteinPercentage = Math.round((protein / total) * 100);
+const MacroTracker = () => {
+  const [fat, setFat] = useState(0);
+  const [carbs, setCarbs] = useState(0);
+  const [protein, setProtein] = useState(0);
+
+
+  // useEffect(() => {
+  //   axios.get('http://localhost:5555/api/macros')
+  //   .then(res => {
+  //     setFat(res.data[0].fat)
+  //     setCarbs(res.data[0].carb)
+  //     setProtein(res.data[0].protein)
+  //     console.log(res.data[0])
+  //   })
+  //   .catch(err => {
+  //     console.log(err)
+  //   })
+  // }, []);
 
   return (
     <MacroWrapper>
@@ -75,6 +77,7 @@ const Logout = () => {
           trail: {
             stroke: '#eee',
             strokeLinecap: 'round',
+            opacity: 1,
           },
           text: {
             fill: '#f39c12',
@@ -88,7 +91,7 @@ const Logout = () => {
         strokeWidth={10}
         styles={{
           path: {
-            transform: 'rotate(0.25turn)',
+            transform: `rotate(${carbs / 100}turn)`,
             transformOrigin: 'center center',
             stroke: '#3498db',
             strokeLinecap: 'butt',
@@ -111,7 +114,7 @@ const Logout = () => {
         strokeWidth={10}
         styles={{
           path: {
-            transform: 'rotate(0.75turn)',
+            transform: `rotate(${protein / 100}turn)`,
             transformOrigin: 'center center',
             stroke: '#e74c3c',
             strokeLinecap: 'butt',
@@ -129,8 +132,6 @@ const Logout = () => {
       />
     </MacroWrapper>
   );
-  };
+};
 
-
-
-export default Logout;
+export default MacroTracker;
