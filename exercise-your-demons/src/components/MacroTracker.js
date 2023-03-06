@@ -45,9 +45,9 @@ const ProteinSection = styled(MacroSection)`
 
 
 const MacroTracker = () => {
-  const [fat, setFat] = useState(0);
-  const [carbs, setCarbs] = useState(0);
-  const [protein, setProtein] = useState(0);
+  const [fat, setFat] = useState(50);
+  const [carbs, setCarbs] = useState(12);
+  const [protein, setProtein] = useState(30);
 
 
   // useEffect(() => {
@@ -91,7 +91,7 @@ const MacroTracker = () => {
         strokeWidth={10}
         styles={{
           path: {
-            transform: `rotate(${carbs / 100}turn)`,
+            transform: `rotate(${fat / 100}turn)`,
             transformOrigin: 'center center',
             stroke: '#3498db',
             strokeLinecap: 'butt',
@@ -114,7 +114,7 @@ const MacroTracker = () => {
         strokeWidth={10}
         styles={{
           path: {
-            transform: `rotate(${protein / 100}turn)`,
+            transform: `rotate(${(carbs + fat) / 100}turn)`,
             transformOrigin: 'center center',
             stroke: '#e74c3c',
             strokeLinecap: 'butt',
