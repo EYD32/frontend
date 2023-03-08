@@ -8,6 +8,7 @@ import NavBar from './components/NavBar';
 import Register from './components/Register';
 import MacroTracker from './components/MacroTracker';
 
+
 function App() {
   return (
     <div className='App'>
@@ -16,7 +17,7 @@ function App() {
       </header>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='landing' element={<Profile />} />
+        <Route path='user/:user_id' element={<Profile />} />
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
       </Routes>

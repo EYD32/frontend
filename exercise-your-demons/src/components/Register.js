@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { registrationSchema } from '../validation/schema';
 import { useForm } from '../hooks/useForm';
+import axios from 'axios';
 
 export default function Register() {
   const initialFormValues = {
@@ -24,8 +25,16 @@ export default function Register() {
     formSchema,
   });
 
-  function handleSubmit() {
-    navigate('/landing');
+  function handleSubmit(e) {
+   e.preventDefault()
+   axios.post('http://localhost:5555/api/user', formValues )
+   .then((res) =>{
+     console.log(res.data);
+     navigate('/landing');
+   })
+   .catch((err) => {
+     console.log(err.response)
+   })
   }
 
   return (

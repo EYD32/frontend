@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import {useParams} from 'react-router-dom';
 import axios from 'axios';
 
 const MacroWrapper = styled.div`
@@ -43,26 +44,28 @@ const ProteinSection = styled(MacroSection)`
 `;
 
 const MacroTracker = () => {
-  const [fat, setFat] = useState(10);
-  const [carbs, setCarbs] = useState(10);
-  const [protein, setProtein] = useState(50);
+  const { user_id } = useParams()
+  
+  const [fat, setFat] = useState(5);
+  const [carbs, setCarbs] = useState(5);
+  const [protein, setProtein] = useState(25);
   const [fatGoal, setFatGoal] = useState(0)
   const [carbGoal, setCarbGoal] = useState(0)
   const [proteinGoal, setProteinGoal] = useState(0)
 
   useEffect(() => {
     axios
-      .get('http://localhost:5555/api/macros')
+      .get(`http://localhost:5555/api/user/${user_id}`)
       .then((res) => {
-        setFatGoal(res.data[0].fatGoal)
-        setCarbGoal(res.data[0].carbGoal)
-        setProteinGoal(res.data[0].proteinGoal)
+        setFatGoal(res.data.fatGoal)
+        setCarbGoal(res.data.carbGoal)
+        setProteinGoal(res.data.proteinGoal)
         console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [user_id]);
 
   return (
     <MacroWrapper>
