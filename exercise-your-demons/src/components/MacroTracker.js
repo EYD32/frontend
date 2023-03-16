@@ -46,9 +46,9 @@ const ProteinSection = styled(MacroSection)`
 const MacroTracker = () => {
   const { user_id } = useParams()
   
-  const [fat, setFat] = useState(5);
-  const [carbs, setCarbs] = useState(5);
-  const [protein, setProtein] = useState(25);
+  const [fat, setFat] = useState(0);
+  const [carbs, setCarbs] = useState(0);
+  const [protein, setProtein] = useState(0);
   const [fatGoal, setFatGoal] = useState(0)
   const [carbGoal, setCarbGoal] = useState(0)
   const [proteinGoal, setProteinGoal] = useState(0)
@@ -57,21 +57,24 @@ const MacroTracker = () => {
     axios
       .get(`http://localhost:5555/api/user/${user_id}`)
       .then((res) => {
+        setProtein(res.data.protein)
         setFatGoal(res.data.fatGoal)
         setCarbGoal(res.data.carbGoal)
         setProteinGoal(res.data.proteinGoal)
+        res.data.fat < fatGoal ? setFat(res.data.fat) : setFat(res.data.fatGoal)
+        res.data.carb < carbGoal ? setCarbs(res.data.carb) : setCarbs(res.data.carbGoal)  
+        res.data.protein < proteinGoal ? setProtein(res.data.protein) : setProtein(res.data.proteinGoal)      
         console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [user_id]);
+  }, [user_id, fatGoal, carbGoal, proteinGoal]);
 
   return (
     <MacroWrapper>
       <FatSection
         value={fat}
-        text={`${fat}g`}
         strokeWidth={10}
         styles={{
           path: {
@@ -134,7 +137,7 @@ const MacroTracker = () => {
           },
         }}
       />
-    </MacroWrapper>
+    </MacroWrapper> 
   );
 };
 

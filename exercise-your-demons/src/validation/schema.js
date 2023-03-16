@@ -27,4 +27,10 @@ const loginSchema = yup.object().shape({
   password: yup.string().trim().required('password is required'),
 });
 
-export { registrationSchema, loginSchema };
+const macroSchema = yup.object().shape({
+  fat: yup.number(),
+  protein: yup.number(),
+  carb: yup.number(),
+});
+
+export { registrationSchema, loginSchema, macroSchema };
