@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 
 export default function MacroForm(props) {
-  const { user_id } = useParams();
+//   const { user_id } = useParams();
 
   let initialFormValues = {
     fat: '',
@@ -29,7 +29,7 @@ export default function MacroForm(props) {
 
   function handleSubmit() {
     axios
-      .put(`http://localhost:5555/api/user/${user_id}`, {
+      .put(`http://localhost:5555/api/user/${props.id}`, {
         fat: formValues.fat,
         protein: formValues.protein,
         carb: formValues.carb,

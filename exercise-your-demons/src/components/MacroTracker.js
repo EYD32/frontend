@@ -43,37 +43,37 @@ const ProteinSection = styled(MacroSection)`
   position: absolute;
 `;
 
-const MacroTracker = () => {
-  const { user_id } = useParams()
+const MacroTracker = (props) => {
+  // const { user_id } = useParams()
   
-  const [fat, setFat] = useState(0);
-  const [carbs, setCarbs] = useState(0);
-  const [protein, setProtein] = useState(0);
-  const [fatGoal, setFatGoal] = useState(0)
-  const [carbGoal, setCarbGoal] = useState(0)
-  const [proteinGoal, setProteinGoal] = useState(0)
+  // const [fat, setFat] = useState(0);
+  // const [carbs, setCarbs] = useState(0);
+  // const [protein, setProtein] = useState(0);
+  // const [fatGoal, setFatGoal] = useState(0)
+  // const [carbGoal, setCarbGoal] = useState(0)
+  // const [proteinGoal, setProteinGoal] = useState(0)
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:5555/api/user/${user_id}`)
-      .then((res) => {
-        setProtein(res.data.protein)
-        setFatGoal(res.data.fatGoal)
-        setCarbGoal(res.data.carbGoal)
-        setProteinGoal(res.data.proteinGoal)
-        res.data.fat < fatGoal ? setFat(res.data.fat) : setFat(res.data.fatGoal)
-        res.data.carb < carbGoal ? setCarbs(res.data.carb) : setCarbs(res.data.carbGoal)  
-        res.data.protein < proteinGoal ? setProtein(res.data.protein) : setProtein(res.data.proteinGoal)      
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [user_id, fatGoal, carbGoal, proteinGoal]);
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:5555/api/user/${user_id}`)
+  //     .then((res) => {
+  //       setProtein(res.data.protein)
+  //       setFatGoal(res.data.fatGoal)
+  //       setCarbGoal(res.data.carbGoal)
+  //       setProteinGoal(res.data.proteinGoal)
+  //       res.data.fat < fatGoal ? setFat(res.data.fat) : setFat(res.data.fatGoal)
+  //       res.data.carb < carbGoal ? setCarbs(res.data.carb) : setCarbs(res.data.carbGoal)  
+  //       res.data.protein < proteinGoal ? setProtein(res.data.protein) : setProtein(res.data.proteinGoal)      
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, [user_id, fatGoal, carbGoal, proteinGoal]);
 
   return (
     <MacroWrapper>
       <FatSection
-        value={fat}
+        value={props.fat}
         strokeWidth={10}
         styles={{
           path: {
@@ -93,11 +93,11 @@ const MacroTracker = () => {
         }}
       />
       <CarbsSection
-        value={carbs}
+        value={props.carb}
         strokeWidth={10}
         styles={{
           path: {
-            transform: `rotate(${fatGoal / 100}turn)`,
+            transform: `rotate(${props.fatGoal / 100}turn)`,
             transformOrigin: 'center center',
             stroke: '#3498db',
             strokeLinecap: 'butt',
@@ -114,12 +114,12 @@ const MacroTracker = () => {
         }}
       />
       <ProteinSection
-        value={protein}
+        value={props.protein}
         strokeWidth={10}
         styles={{
           path: {
             circleRatio: 0.5,
-            transform: `rotate(${(carbGoal + fatGoal) / 100}turn)`,
+            transform: `rotate(${(props.carbGoal + props.fatGoal) / 100}turn)`,
             transformOrigin: 'center center',
             stroke: '#e74c3c',
             strokeLinecap: 'butt',

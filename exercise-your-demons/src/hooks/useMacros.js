@@ -33,7 +33,7 @@ useEffect(() => {
 
     
   
-    return [fat, carb, protein, fatGoal, carbGoal, proteinGoal];
+    return [fat, carb, protein, fatGoal, carbGoal, proteinGoal, user_id];
   };
   
   export { useMacros };
