@@ -2,48 +2,55 @@ import { useForm } from '../hooks/useForm';
 import { macroSchema } from '../validation/schema';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useEffect } from 'react';
 
-export default function MacroForm() {
+export default function MacroForm(props) {
   const { user_id } = useParams();
 
-  const initialFormValues = {
+  let initialFormValues = {
     fat: '',
     protein: '',
     carb: '',
   };
 
   const initialFormErrors = {
-    fat: '',
-    protein: '',
-    carb: '',
+    fat: 0,
+    protein: 0,
+    carb: 0,
   };
   const formSchema = macroSchema;
 
-  const [formValues, formErrors, disabled, handleChange] = useForm({
+ const [formValues, formErrors, disabled, handleChange, setFormValues] = useForm({
     initialFormValues,
     initialFormErrors,
     formSchema,
   });
-  function handleSubmit(e) {
-    axios.put(`http://localhost:5555/api/user/${user_id}`,{
+  
+
+  function handleSubmit() {
+    axios
+      .put(`http://localhost:5555/api/user/${user_id}`, {
         fat: formValues.fat,
         protein: formValues.protein,
-        carb: formValues.carb
-    }).then((res) => {
-      console.log(res);
-    });
+        carb: formValues.carb,
+      })
+      .then((res) => {
+        console.log(res);
+      });
   }
+  useEffect(() => {
+    setFormValues(props)
+  }, [props, setFormValues]);
 
   return (
     <div className='update-macros'>
       <form onSubmit={handleSubmit}>
         <label htmlFor='fat'>Fat</label>
-        <input
-          id='fat'
-          value={formValues.fat}
-          name='fat'
-          onChange={handleChange}
-        />
+        <input 
+        id='fat' 
+        value={formValues.fat} 
+        name='fat' 
+        onChange={handleChange} />
         <label htmlFor='protein'>Protein</label>
         <input
           id='protein'
@@ -58,7 +65,7 @@ export default function MacroForm() {
           name='carb'
           onChange={handleChange}
         />
-        <button >Update Macros</button>
+        <button>Update Macros</button>
       </form>
     </div>
   );

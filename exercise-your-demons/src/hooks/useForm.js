@@ -25,7 +25,7 @@ const useForm = ({ initialFormValues, initialFormErrors, formSchema }) => {
     formSchema.isValid(formValues).then((valid) => setDisabled(!valid));
   }, [formSchema, formValues]);
 
-  return [formValues, formErrors, disabled, handleChange];
+  return [formValues, formErrors, disabled, handleChange, setFormValues];
 };
 
 export { useForm };

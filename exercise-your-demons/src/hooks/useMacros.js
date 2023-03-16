@@ -13,10 +13,10 @@ const [carbGoal, setCarbGoal] = useState(0)
 const [proteinGoal, setProteinGoal] = useState(0)
 
 
-  useEffect(() => {
+useEffect(() => {
     axios
-      .get(`http://localhost:5555/api/user/${user_id}`)
-      .then((res) => {
+    .get(`http://localhost:5555/api/user/${user_id}`)
+    .then((res) => {
         setProtein(res.data.protein)
         setFatGoal(res.data.fatGoal)
         setCarbGoal(res.data.carbGoal)
@@ -24,13 +24,13 @@ const [proteinGoal, setProteinGoal] = useState(0)
         res.data.fat < fatGoal ? setFat(res.data.fat) : setFat(res.data.fatGoal)
         res.data.carb < carbGoal ? setCarb(res.data.carb) : setCarb(res.data.carbGoal)  
         res.data.protein < proteinGoal ? setProtein(res.data.protein) : setProtein(res.data.proteinGoal)      
-        console.log(res.data);
-      })
-      .catch((err) => {
+    })
+    .catch((err) => {
         console.log(err);
-      });
-  }, [user_id, fatGoal, carbGoal, proteinGoal]);
-  
+    });
+}, [user_id, fatGoal, carbGoal, proteinGoal]);
+
+
     
   
     return [fat, carb, protein, fatGoal, carbGoal, proteinGoal];

@@ -64,7 +64,6 @@ const MacroTracker = () => {
         res.data.fat < fatGoal ? setFat(res.data.fat) : setFat(res.data.fatGoal)
         res.data.carb < carbGoal ? setCarbs(res.data.carb) : setCarbs(res.data.carbGoal)  
         res.data.protein < proteinGoal ? setProtein(res.data.protein) : setProtein(res.data.proteinGoal)      
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
