@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import {useParams} from 'react-router-dom';
-import axios from 'axios';
+
 
 const MacroWrapper = styled.div`
   border: 1px solid grey;
@@ -12,6 +10,21 @@ const MacroWrapper = styled.div`
   align-items: center;
   height: 35rem;
 `;
+
+const MacroGoals = styled(CircularProgressbar)`
+ width: 16rem;
+  height: 16rem;
+border-radius: 50%;
+  .CircularProgressbar-path {
+    stroke-width: 1rem;
+  }
+
+  .CircularProgressbar-trail {
+    stroke: #eee;
+    stroke-width: 1.5rem;
+    opacity: 0;
+  }
+`
 
 const MacroSection = styled(CircularProgressbar)`
   width: 20rem;
@@ -28,6 +41,8 @@ const MacroSection = styled(CircularProgressbar)`
   }
 `;
 
+
+
 const FatSection = styled(MacroSection)`
   color: #f39c12;
   position: absolute;
@@ -43,37 +58,26 @@ const ProteinSection = styled(MacroSection)`
   position: absolute;
 `;
 
+const FatGoalSection = styled(MacroGoals)`
+color: #f39c12;
+  position: absolute;
+`
+const CarbGoalSection = styled(MacroGoals)`
+color: #3498db;
+  position: absolute;
+`
+const ProteinGoalSection = styled(MacroGoals)`
+color: #e74c3c;
+  position: absolute;
+`
+
+
 const MacroTracker = (props) => {
-  // const { user_id } = useParams()
-  
-  // const [fat, setFat] = useState(0);
-  // const [carbs, setCarbs] = useState(0);
-  // const [protein, setProtein] = useState(0);
-  // const [fatGoal, setFatGoal] = useState(0)
-  // const [carbGoal, setCarbGoal] = useState(0)
-  // const [proteinGoal, setProteinGoal] = useState(0)
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:5555/api/user/${user_id}`)
-  //     .then((res) => {
-  //       setProtein(res.data.protein)
-  //       setFatGoal(res.data.fatGoal)
-  //       setCarbGoal(res.data.carbGoal)
-  //       setProteinGoal(res.data.proteinGoal)
-  //       res.data.fat < fatGoal ? setFat(res.data.fat) : setFat(res.data.fatGoal)
-  //       res.data.carb < carbGoal ? setCarbs(res.data.carb) : setCarbs(res.data.carbGoal)  
-  //       res.data.protein < proteinGoal ? setProtein(res.data.protein) : setProtein(res.data.proteinGoal)      
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, [user_id, fatGoal, carbGoal, proteinGoal]);
-
+  const macroTotal = props.fatGoal + props.proteinGoal + props.carbGoal
   return (
     <MacroWrapper>
       <FatSection
-        value={props.fat}
+        value={props.fat / macroTotal  * 100 }
         strokeWidth={10}
         styles={{
           path: {
@@ -93,7 +97,7 @@ const MacroTracker = (props) => {
         }}
       />
       <CarbsSection
-        value={props.carb}
+        value={props.carb / macroTotal * 100}
         strokeWidth={10}
         styles={{
           path: {
@@ -114,12 +118,64 @@ const MacroTracker = (props) => {
         }}
       />
       <ProteinSection
-        value={props.protein}
+        value={props.protein / macroTotal * 100}
         strokeWidth={10}
         styles={{
           path: {
             circleRatio: 0.5,
             transform: `rotate(${(props.carbGoal + props.fatGoal) / 100}turn)`,
+            transformOrigin: 'center center',
+            stroke: '#e74c3c',
+            strokeLinecap: 'butt',
+          },
+          trail: {
+            circleRatio: 0.5,
+            stroke: '#eee',
+            strokeLinecap: 'round',
+          },
+          
+        }}
+      />
+      <FatGoalSection
+        value={props.fatGoal / macroTotal * 100}
+        strokeWidth={10}
+        styles={{
+          path: {
+            stroke: '#f39c12',
+            strokeLinecap: 'butt',
+          },
+          trail: {
+            stroke: '#eee',
+            strokeLinecap: 'round',
+            opacity: 1,
+          },
+         
+        }}
+      />
+      <CarbGoalSection
+        value={props.carbGoal / macroTotal * 100}
+        strokeWidth={10}
+        styles={{
+          path: {
+            transform: `rotate(${props.fatGoal / macroTotal}turn)`,
+            transformOrigin: 'center center',
+            stroke: '#3498db',
+            strokeLinecap: 'butt',
+          },
+          trail: {
+            stroke: '#eee',
+            strokeLinecap: 'round',
+          },
+          
+        }}
+      />
+      <ProteinGoalSection
+        value={props.proteinGoal / macroTotal * 100}
+        strokeWidth={10}
+        styles={{
+          path: {
+            circleRatio: 0.5,
+            transform: `rotate(${(props.carbGoal + props.fatGoal) / macroTotal}turn)`,
             transformOrigin: 'center center',
             stroke: '#e74c3c',
             strokeLinecap: 'butt',
