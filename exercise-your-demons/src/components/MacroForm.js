@@ -4,7 +4,8 @@ import axios from 'axios';
 import { useEffect } from 'react';
 
 export default function MacroForm(props) {
-
+console.log(props)
+console.log(props.fat)
 
   let initialFormValues = {
     fat: '',
@@ -13,9 +14,9 @@ export default function MacroForm(props) {
   };
 
   const initialFormErrors = {
-    fat: 0,
-    protein: 0,
-    carb: 0,
+    fat: '',
+    protein: '',
+    carb: '',
   };
   const formSchema = macroSchema;
 
@@ -26,20 +27,18 @@ export default function MacroForm(props) {
   });
   
 
-  function handleSubmit(e) {
-      axios
+  function handleSubmit() { 
+    
+    axios
       .put(`http://localhost:5555/api/user/${props.id}`, {
-          fat: formValues.fat,
-          protein: formValues.protein,
-          carb: formValues.carb,
+          fat: Number(formValues.fat) + props.fat,
+          protein: Number(formValues.protein) + props.protein,
+          carb: Number(formValues.carb) + props.carb,
         })
         .then((res) => {
             console.log(res);
         });
     }
-  useEffect(() => {
-    setFormValues(props)
-  }, [props, setFormValues]);
 
   return (
     <div className='update-macros'>
@@ -49,12 +48,15 @@ export default function MacroForm(props) {
         id='fat' 
         value={formValues.fat} 
         name='fat' 
+        type='number'
         onChange={handleChange} />
+        <figcaption>{props.fat}g</figcaption>
         <label htmlFor='protein'>Protein</label>
         <input
           id='protein'
           value={formValues.protein}
           name='protein'
+          type='number'
           onChange={handleChange}
         />
         <label htmlFor='carb'>Carbs</label>
@@ -62,6 +64,7 @@ export default function MacroForm(props) {
           id='carb'
           value={formValues.carb}
           name='carb'
+          type='number'
           onChange={handleChange}
         />
         <button>Update Macros</button>
