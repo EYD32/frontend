@@ -1,6 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { loginSchema } from '../validation/schema';
 import { useForm } from '../hooks/useForm';
+import axios from 'axios'
 
 export default function Login() {
   const initialFormValues = {
@@ -14,6 +15,8 @@ export default function Login() {
   const formSchema = loginSchema;
 
   let navigate = useNavigate();
+  const { user_id } = useParams();
+
 
   const [formValues, formErrors, disabled, handleChange] = useForm({
     initialFormValues,
@@ -22,7 +25,7 @@ export default function Login() {
   });
 
   function handleSubmit() {
-    navigate('/landing');
+    navigate(`user}`);
   }
 
   return (

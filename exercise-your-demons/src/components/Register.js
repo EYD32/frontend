@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { registrationSchema } from '../validation/schema';
 import { useForm } from '../hooks/useForm';
 import axios from 'axios';
@@ -19,6 +19,7 @@ export default function Register() {
   };
   const formSchema = registrationSchema;
   let navigate = useNavigate();
+  let user_id = useParams()
   const [formValues, formErrors, disabled, handleChange] = useForm({
     initialFormErrors,
     initialFormValues,
@@ -27,10 +28,10 @@ export default function Register() {
 
   function handleSubmit(e) {
    e.preventDefault()
-   axios.post('http://localhost:5555/api/user', formValues )
+   axios.post('http://localhost:5555/api/user/register', formValues )
    .then((res) =>{
      console.log(res.data);
-     navigate('/landing');
+     navigate(`/user/${res.data[0].user_id}`);
    })
    .catch((err) => {
      console.log(err.response)

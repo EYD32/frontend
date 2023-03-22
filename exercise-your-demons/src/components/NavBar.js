@@ -5,7 +5,7 @@ export default function NavBar() {
     <nav id='nav-bar'>
       <Link to='/'>Home</Link>
       <Link to='login'>Login</Link>
-      <Link to='landing'>Profile</Link>
+      <Link to='user/:id'>Profile</Link>
       <Link to='register'>Signup</Link>
     </nav>
   );
