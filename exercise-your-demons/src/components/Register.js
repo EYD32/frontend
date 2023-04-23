@@ -28,7 +28,7 @@ export default function Register() {
 
   function handleSubmit(e) {
    e.preventDefault()
-   axios.post('http://localhost:5555/api/user/register', formValues )
+   axios.post('http://localhost:5555/api/auth/register', formValues )
    .then((res) =>{
      console.log(res.data);
      navigate(`/user/${res.data[0].user_id}`);
