@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { loginSchema } from '../validation/schema';
 import { useForm } from '../hooks/useForm';
-import axios from 'axios'
+import axiosWithAuth from '../Utilities/axiosWithAuth';
 
 export default function Login() {
   const initialFormValues = {
@@ -26,7 +26,12 @@ export default function Login() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    
+    axiosWithAuth()
+    .post('http://localhost:5555/api/auth/login', formValues)
+    .then((res) => {
+      console.log(res)
+    })
+
   }
 
   return (
