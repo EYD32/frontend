@@ -24,8 +24,9 @@ export default function Login() {
     formSchema,
   });
 
-  function handleSubmit() {
-    navigate(`user}`);
+  function handleSubmit(e) {
+    e.preventDefault();
+    
   }
 
   return (
