@@ -30,6 +30,7 @@ export default function Login() {
     .post('http://localhost:5555/api/auth/login', formValues)
     .then((res) => {
       localStorage.setItem('token', res.data.token)
+      navigate(`/user/${res.data.userId}`)
     })
 
   }
