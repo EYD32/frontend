@@ -29,7 +29,7 @@ export default function Login() {
     axiosWithAuth()
     .post('http://localhost:5555/api/auth/login', formValues)
     .then((res) => {
-      console.log(res)
+      localStorage.setItem('token', res.data.token)
     })
 
   }
