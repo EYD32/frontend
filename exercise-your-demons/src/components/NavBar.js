@@ -7,6 +7,7 @@ export default function NavBar() {
       <Link to='login'>Login</Link>
       <Link to='user/:id'>Profile</Link>
       <Link to='register'>Signup</Link>
+      <Link to='logout'>Logout</Link>
     </nav>
   );
 }

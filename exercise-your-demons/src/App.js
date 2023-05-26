@@ -7,7 +7,7 @@ import Login from './components/Login';
 import NavBar from './components/NavBar';
 import Register from './components/Register';
 import MacroTracker from './components/MacroTracker';
-
+import Logout from './components/Logout';
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
         <Route path='user/:user_id' element={<Profile />} />
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
+        <Route path='logout' element={<Logout />} />
       </Routes>
     </div>
   );
