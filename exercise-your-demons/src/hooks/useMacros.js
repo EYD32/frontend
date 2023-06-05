@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosWithAuth from '../Utilities/axiosWithAuth';
 import {useParams} from 'react-router-dom';
 
 const useMacros = () => {
@@ -14,7 +14,7 @@ const [proteinGoal, setProteinGoal] = useState(0)
 
 
 useEffect(() => {
-    axios
+    axiosWithAuth()
     .get(`http://localhost:5555/api/user/${user_id}`)
     .then((res) => {
         setProtein(res.data.protein)
